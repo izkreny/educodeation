@@ -1,28 +1,26 @@
-number_of_bottles = 99
+number_of_bottles = 5
 
-while true do
-  puts "#{number_of_bottles} bottles of beer on the wall."
-  puts "#{number_of_bottles} bottles of beer."
-  puts "Take one down, pass it around,"
+while true
+  puts "#{number_of_bottles} bottles of beer on the wall, " +
+    "#{number_of_bottles} bottles of beer."
   
   number_of_bottles = number_of_bottles - 1
 
-  if number_of_bottles == 1 then
-    puts "#{number_of_bottles} bottle of beer on the wall."
+  if number_of_bottles == 1
+    puts "Take one down, pass it around, " +
+      "#{number_of_bottles} bottle of beer on the wall.\n\n"
     break
   else
-    puts "#{number_of_bottles} bottles of beer on the wall."
-    puts
+    puts "Take one down, pass it around, " +
+      "#{number_of_bottles} bottles of beer on the wall.\n\n"
   end
 end
 
-puts
-puts "#{number_of_bottles} bottle of beer on the wall."
-puts "#{number_of_bottles} bottle of beer."
-puts "Take one down, pass it around,"
-puts "No more bottles of beer on the wall."
-puts
-puts "No more bottles of beer on the wall,"
-puts "no more bottles of beer."
-puts "There's nothing else to fall,"
-puts "because there's no more bottles of beer on the wall."
+puts "#{number_of_bottles} bottle of beer on the wall, " +
+  "#{number_of_bottles} bottle of beer."
+puts "Take one down, pass it around, " +
+  "no more bottles of beer on the wall.\n\n"
+puts "No more bottles of beer on the wall, " +
+  "no more bottles of beer."
+puts "There's nothing else to fall, " +
+  "because there's no more bottles of beer on the wall."
