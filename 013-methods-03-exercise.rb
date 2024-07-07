@@ -3,7 +3,7 @@ def ask_for_winner(match)
   puts "1. " + match[0].capitalize
   puts "2. " + match[1].capitalize
 
-  while true do
+  loop do
     answer = gets.chomp.downcase
     if (answer == "1" || answer == "2")
       return match[answer.to_i - 1]
@@ -16,28 +16,24 @@ end
 def round(flavors, round_number)
   flavors_shortlist = []
   match_number = 1
-  number_of_flavors = flavors.length
 
-  if number_of_flavors % 2 == 0 then
-    counter = number_of_flavors - 1
-  else
-    flavors_shortlist.push(flavors[number_of_flavors - 1])
-    counter = number_of_flavors - 2
-  end
+  flavors_shortlist.append(flavors.pop) if flavors.length % 2 != 0
+  counter = flavors.length
 
-  while counter >= 0 do
+  while counter > 0
     puts
-    if number_of_flavors == 2 then
+    if flavors.length == 2 && flavors_shortlist.empty?
       puts "FINAL MATCH!"
     else
       puts "ROUND #{round_number}, MATCH #{match_number}"
     end
 
     match = [
-      flavors[counter], 
-      flavors[counter - 1]
+      flavors[counter - 1], 
+      flavors[counter - 2]
     ]
-    flavors_shortlist.push(ask_for_winner(match))
+
+    flavors_shortlist.append(ask_for_winner(match))
     match_number += 1
     counter -= 2
   end
@@ -58,10 +54,10 @@ round_number = 1
 
 puts "Welcome to THE ULTIMATE FLAVOR TOURNAMENT!"
 
-while true do
+loop do
   flavors = round(flavors, round_number)
 
-  if flavors.length == 1 then
+  if flavors.length == 1
     puts
     puts "And the ultimate Flavor Champion is:"
     puts flavors.last.upcase + "!!!"
