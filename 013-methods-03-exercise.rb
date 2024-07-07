@@ -14,32 +14,32 @@ def ask_for_winner(match)
 end
 
 def round(flavors, round_number)
-  flavors_shortlist = []
+  winners = []
   match_number = 1
+  flavor_id = 0
 
-  flavors_shortlist.append(flavors.pop) if flavors.length % 2 != 0
-  counter = flavors.length
-
-  while counter > 0
-    puts
-    if flavors.length == 2 && flavors_shortlist.empty?
-      puts "FINAL MATCH!"
+  while flavor_id < flavors.length - 1
+    if flavors.length == 2
+      puts "\nFINAL MATCH!"
     else
-      puts "ROUND #{round_number}, MATCH #{match_number}"
+      puts "\nROUND #{round_number}, MATCH #{match_number}"
     end
 
     match = [
-      flavors[counter - 1], 
-      flavors[counter - 2]
+      flavors[flavor_id], 
+      flavors[flavor_id + 1]
     ]
+    winners.append(ask_for_winner(match))
 
-    flavors_shortlist.append(ask_for_winner(match))
     match_number += 1
-    counter -= 2
+    flavor_id += 2
   end
+
+  winners.append(flavors.pop) if flavors.length % 2 != 0
   
-  return flavors_shortlist
+  return winners
 end
+
 
 flavors = [
   "vanilla",
@@ -53,16 +53,13 @@ flavors = [
 round_number = 1
 
 puts "Welcome to THE ULTIMATE FLAVOR TOURNAMENT!"
-
 loop do
-  flavors = round(flavors, round_number)
-
   if flavors.length == 1
-    puts
-    puts "And the ultimate Flavor Champion is:"
+    puts "\nAnd the ultimate Flavor Champion is:"
     puts flavors.last.upcase + "!!!"
     break
   else
+    flavors = round(flavors, round_number)
     round_number += 1
   end
 end
