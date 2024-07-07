@@ -1,4 +1,5 @@
 title = "Table of Contents"
+# Chapter Number, Name, Page number
 chapters = [[1, "Numbers",   1],
             [2, "Letters",   5],
             [3, "Variables", 9]]
