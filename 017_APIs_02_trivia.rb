@@ -1,24 +1,10 @@
 require 'net/http'
 require 'json'
+require 'cgi/escape'
 
 class String
-  def decode
-    self.
-      gsub('&quot;', '"').
-      gsub('&#039;', "'").
-      gsub('&amp;', '&')
-  end
-end
-
-def get_questions(count = 2)
-  puts("Please wait, making up #{count} question(s)...")
-  url = URI("https://opentdb.com/api.php?amount=#{count}")
-  response = JSON.parse(Net::HTTP.get(url))
-  if response["response_code"] == 0
-    return response["results"]
-  else
-    puts("Something went wrong! :-/")
-    exit
+  def unescape
+    CGI::unescapeHTML(self)
   end
 end
 
@@ -35,15 +21,27 @@ def get_number(range)
   end
 end
 
+def get_questions(count = 2)
+  puts("Please wait, building up #{count} question(s)...")
+  url = URI("https://opentdb.com/api.php?amount=#{count}")
+  response = JSON.parse(Net::HTTP.get(url))
+  if response["response_code"] == 0
+    return response["results"]
+  else
+    puts("Something went wrong! :-/")
+    exit
+  end
+end
+
 def answer_correct?(question)
   answers = question["incorrect_answers"].
             append(question["correct_answer"]).
             shuffle
 
-  puts("\n### #{question["category"].decode.upcase} ###")
-  puts(question["question"].decode)
+  puts("\n### #{question["category"].unescape.upcase} ###")
+  puts(question["question"].unescape)
   answers.each_with_index do |answer, index|
-    puts(" #{index + 1}) #{answer.decode}")
+    puts(" #{index + 1}) #{answer.unescape}")
   end
   answer = answers[get_number(1..answers.length) - 1]
   
@@ -51,7 +49,7 @@ def answer_correct?(question)
     puts("CORRECT!")
     return true
   else
-    puts("WRONG! (#{question["correct_answer"].decode})")
+    puts("WRONG! (#{question["correct_answer"].unescape})")
     return false
   end
 end  
@@ -70,7 +68,6 @@ end
 
 def main
   puts("How many questions do you want to answer (1-10)?!")
-  # TODO: Validate input!!!
   play_trivia(get_questions(get_number(1..10)))
 end
 
